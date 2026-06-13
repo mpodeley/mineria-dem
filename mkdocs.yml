@@ -2,9 +2,9 @@ site_name: Volumen removido en minería open-pit (DEM-differencing)
 site_description: >-
   Experimento: estimar el material excavado en una mina a cielo abierto restando
   modelos de elevación (DEM) de fechas distintas, con datos satelitales.
-site_url: https://mpodeley.github.io/mineria-insar/
-repo_url: https://github.com/mpodeley/mineria-insar
-repo_name: mpodeley/mineria-insar
+site_url: https://mpodeley.github.io/mineria-dem/
+repo_url: https://github.com/mpodeley/mineria-dem
+repo_name: mpodeley/mineria-dem
 
 theme:
   name: material
@@ -49,4 +49,4 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/mpodeley/mineria-insar
+      link: https://github.com/mpodeley/mineria-dem

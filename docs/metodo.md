@@ -1,7 +1,7 @@
 # Método paso a paso
 
 Todo el procesamiento usa **software libre**. El pipeline está en
-[`docs/pipeline/`](https://github.com/mpodeley/mineria-insar/tree/main/docs/pipeline) y, a diferencia de
+[`docs/pipeline/`](https://github.com/mpodeley/mineria-dem/tree/main/docs/pipeline) y, a diferencia de
 los repos hermanos, **no** usa la cadena InSAR (HyP3/MintPy): solo manejo de rasters.
 
 ## Qué es DEM-differencing (en una línea)

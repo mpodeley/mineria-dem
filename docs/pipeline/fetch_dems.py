@@ -29,7 +29,7 @@ import aoi
 
 HERE = Path(__file__).parent
 DEMS = HERE / "dems"
-UA = {"User-Agent": "mineria-insar/1.0 (fetch_dems.py)"}
+UA = {"User-Agent": "mineria-dem/1.0 (fetch_dems.py)"}
 
 COP_BASE = ("https://copernicus-dem-30m.s3.amazonaws.com/"
             "Copernicus_DSM_COG_10_{ns}{lat:02d}_00_{ew}{lon:03d}_00_DEM/"
