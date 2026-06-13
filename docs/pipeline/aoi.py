@@ -41,6 +41,13 @@ SITES = {
         PIT=(39.70, 111.27),
         EPOCH_BASE="2000", EPOCH_NEW="2012",
     ),
+    # Haerwusu contra DEM ASTER 2024 (estéreo 3N/3B vía ASP) → ventana 2000→2024.
+    "china2024": dict(
+        NAME="Haerwusu (Mongolia Interior, China) — 2000→2024",
+        WEST=111.18, SOUTH=39.64, EAST=111.40, NORTH=39.76,
+        PIT=(39.70, 111.27),
+        EPOCH_BASE="2000", EPOCH_NEW="2024",
+    ),
 }
 
 SITE = os.environ.get("SITE", "veladero").lower()

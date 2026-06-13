@@ -32,6 +32,25 @@ A diferencia de Veladero (donde excavado ≈ depositado, todo dentro del footpri
 grande**: el **carbón se extrae y se va** (se quema, no se apila), y parte del estéril se deposita **fuera**
 del polígono. Es la firma volumétrica de una mina de carbón.
 
+## Hasta 2024 con ASTER (mismo método que el caso público)
+
+Reconstruyendo el DEM de **2024** desde el par estéreo de ASTER (escena del **2024-04-25, 0% nube**,
+`aster_dem.sh`) y restándolo contra el SRTM 2000:
+
+![Δh Haerwusu 2000→2024 (SRTM vs ASTER)](assets/dem_diff_china2024.png){ loading=lazy }
+
+<iframe src="../assets/demo_volumen_china2024.html" width="100%" height="540" style="border:1px solid #ccc;border-radius:6px"></iframe>
+
+| Ventana | Excavado | Neto | DEM reciente |
+|---|---|---|---|
+| 2000 → **2012** | ≈ 480 Mm³ | ≈ −362 Mm³ | Copernicus GLO-30 |
+| 2000 → **2024** | **≈ 1.742 Mm³** | ≈ **−1.151 Mm³** | ASTER 3N/3B → ASP |
+
+El pit **se expandió enormemente** entre 2012 y 2024 (el excavado se multiplicó ×3,6): el área roja pasó de
+un foco al NO a cubrir casi todo el norte del footprint. Es la firma de uno de los complejos de carbón de
+**crecimiento más rápido del mundo** — visible solo por satélite, porque el dato operativo fino no es público.
+El co-registro absorbió un sesgo de −30,5 m (offset geoide/elipsoide SRTM vs ASTER).
+
 ## Cruce con lo poco que se reporta
 
 Convirtiendo el volumen a masa (carbón+roca, ρ ~1,8–2,2 t/m³): **≈ 480 Mm³ → ~860–1.060 Mt** de material
@@ -52,5 +71,5 @@ que ~1.000 Mt de material total sobre ~12 años (Heidaigou) más ~4 años (Haerw
 - [x] Elegir mina y AOI (**Haerwusu**, `SITE=china` en `aoi.py`).
 - [x] Bajar SRTM 2000 + GLO-30 ~2012 (`SITE=china python fetch_dems.py`).
 - [x] Footprint desde OSM (`overlay_china.geojson`) y `dem_diff.py` con co-registro.
-- [ ] Datar la expansión del pit con Sentinel-2 (óptico) año a año.
-- [ ] DEM reciente (estéreo/lidar) para extender más allá de ~2012 y estimar la tasa actual.
+- [x] **DEM reciente de ASTER 2024** (`aster_dem.sh`) → ventana 2000→2024 (`SITE=china2024`).
+- [ ] Datar la expansión del pit con Sentinel-2 (óptico) año a año para la tasa anual.
