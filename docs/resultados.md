@@ -9,7 +9,7 @@ GLO-30 el pit ya desarrollado.
 
 ## Cambio de elevación (Δh) sobre el footprint minero
 
-<iframe src="../assets/demo_volumen.html" width="100%" height="540" style="border:1px solid #ccc;border-radius:6px"></iframe>
+<iframe src="../assets/demo_volumen_veladero.html" width="100%" height="540" style="border:1px solid #ccc;border-radius:6px"></iframe>
 
 ![Δh Veladero 2000→2012](assets/dem_diff_veladero.png){ loading=lazy }
 
@@ -37,3 +37,20 @@ operación — del orden de magnitud de lo que reporta una mina de este tamaño 
     (EGM96, banda C) y GLO-30 (EGM2008, TanDEM-X), aquí corregido con la mediana del terreno estable; (3) el
     footprint de OSM, que puede no calzar exacto con el límite real. Las mejoras (co-registro x-y-z, barra de
     error) están en [próximos pasos](proximos-pasos.md).
+
+## Segundo caso: Haerwusu (China) — y la comparación
+
+El mismo pipeline corre sobre **Haerwusu**, la mayor mina de carbón a cielo abierto de China
+(ver [caso opaco](caso-opaco.md)). Las dos **firmas volumétricas** son distintas y reveladoras:
+
+| | Veladero (oro, AR) | Haerwusu (carbón, China) |
+|---|---|---|
+| Excavado | ≈ 285 Mm³ | ≈ 480 Mm³ |
+| Depositado (en footprint) | ≈ 267 Mm³ | ≈ 118 Mm³ |
+| Neto | ≈ −18 Mm³ (balanceado) | ≈ **−362 Mm³** (remoción) |
+| Co-registro (sesgo) | −5,06 m | +0,08 m |
+| Dato operativo público | sí (reportes Barrick) | **no** (opaco) |
+
+En **oro**, el estéril se apila al lado y excavado ≈ depositado. En **carbón**, el producto **se va** (se
+quema) y el balance queda muy negativo. La misma técnica satelital, gratuita, distingue los dos regímenes —
+y en el caso chino es la **única** medida independiente, porque el dato operativo no es público.

@@ -32,8 +32,8 @@ import numpy as np
 import aoi
 
 HERE = Path(__file__).parent
-DIFF_TIF = HERE / "dem_diff.tif"
-HTML_OUT = HERE / "demo_volumen.html"
+DIFF_TIF = HERE / f"dem_diff_{aoi.SITE}.tif"
+HTML_OUT = HERE / f"demo_volumen_{aoi.SITE}.html"
 
 
 def _utm_epsg(lon: float, lat: float) -> str:

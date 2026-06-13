@@ -9,5 +9,5 @@ products/
 *.tif
 *.tiff
 # outputs generados por el pipeline (se copian a docs/assets/)
-docs/pipeline/demo_volumen.html
-docs/pipeline/dem_diff.png
+docs/pipeline/demo_volumen_*.html
+docs/pipeline/dem_diff_*.png

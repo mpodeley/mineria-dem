@@ -23,7 +23,7 @@ from pathlib import Path
 import aoi
 
 HERE = Path(__file__).parent
-OUT = HERE / "overlay.geojson"
+OUT = HERE / f"overlay_{aoi.SITE}.geojson"
 OVERPASS = "https://overpass-api.de/api/interpreter"
 
 # (clave, valor) a buscar como way/relation con geometría dentro del bbox.

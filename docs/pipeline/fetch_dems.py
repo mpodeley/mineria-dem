@@ -110,19 +110,23 @@ def _merge_clip(srcs: list[Path], out: Path) -> None:
 def main() -> None:
     DEMS.mkdir(exist_ok=True)
     tiles = _tiles()
-    print(f"==> AOI Veladero · tiles de 1°: {tiles}")
+    base_out = DEMS / f"{aoi.SITE}_base.tif"
+    new_out = DEMS / f"{aoi.SITE}_new.tif"
+    print(f"==> AOI {aoi.NAME} · tiles de 1°: {tiles}")
     print("==> Copernicus GLO-30 (reciente):")
     cop = _fetch_copernicus(tiles)
     print("==> SRTM 2000 (base):")
     srtm = _fetch_srtm(tiles)
     print("==> Mosaico + recorte al AOI:")
-    _merge_clip(cop, DEMS / "new_2012.tif")
-    _merge_clip(srtm, DEMS / "base_2000.tif")
+    _merge_clip(cop, new_out)
+    _merge_clip(srtm, base_out)
     # limpiar tiles crudos
     for pat in ("_*", "*.hgt", "*.hgt.gz"):
         for p in DEMS.glob(pat):
             p.unlink(missing_ok=True)
-    print("\nListo. Corré: python dem_diff.py --base dems/base_2000.tif --new dems/new_2012.tif")
+    sufijo = "" if aoi.SITE == "veladero" else f"SITE={aoi.SITE} "
+    print(f"\nListo. Corré: {sufijo}python dem_diff.py --base {base_out.relative_to(HERE)} "
+          f"--new {new_out.relative_to(HERE)} --pit overlay_{aoi.SITE}.geojson")
 
 
 if __name__ == "__main__":

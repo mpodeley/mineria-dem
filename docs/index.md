@@ -28,12 +28,16 @@ excavados** (y los depositados en escombreras). → `pipeline/dem_diff.py`.
 - **[Caso público (Chile/AR)](caso-publico.md)** — una mina con empresa que reporta producción (p. ej.
   Chuquicamata/Codelco, Escondida/BHP, Veladero/Barrick) para contrastar el volumen estimado contra el
   material movido declarado.
-- **[Caso opaco (China)](caso-opaco.md)** — replicar donde no hay datos operativos públicos (p. ej. carbón
-  a cielo abierto en Mongolia Interior, o Bayan Obo).
+- **[Caso opaco (China)](caso-opaco.md)** — el mismo método sobre **Haerwusu**, la mayor mina de carbón a
+  cielo abierto de China, donde no hay datos operativos públicos.
 
-!!! success "Estado: pipeline funcionando con datos 100% gratuitos"
-    Ya hay un **resultado real** sobre [Veladero](caso-publico.md): restando **SRTM (2000)** vs
-    **Copernicus GLO-30 (~2012)** —ambos gratuitos— se estiman **≈285 Mm³ excavados** en los dos pits, con
-    los dos huecos y las escombreras nítidamente resueltos. Para una mina que arrancó después de 2000, no
-    hace falta DEM comercial. Extender a **hoy** sí requiere un DEM reciente (estéreo/lidar). Ver
-    [Resultados](resultados.md).
+!!! success "Estado: pipeline funcionando con datos 100% gratuitos, en dos países"
+    Hay **resultados reales** restando **SRTM (2000)** vs **Copernicus GLO-30 (~2012)**, ambos gratuitos:
+
+    - **[Veladero](caso-publico.md)** (oro, Argentina): **≈285 Mm³** excavados; cruza con la producción de
+      Barrick en el mismo orden de magnitud (1,0–1,8×).
+    - **[Haerwusu](caso-opaco.md)** (carbón, China — caso **opaco**): **≈480 Mm³** excavados, **−362 Mm³**
+      netos; la única medida independiente donde el dato operativo no es público.
+
+    Para minas que arrancaron después de 2000 no hace falta DEM comercial. Extender a **hoy** sí requiere un
+    DEM reciente (estéreo/lidar). Ver [Resultados](resultados.md).

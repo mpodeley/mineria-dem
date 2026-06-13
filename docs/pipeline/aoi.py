@@ -1,34 +1,49 @@
-"""AOI y config — mina open-pit. Volumen removido por DEM-differencing (NO InSAR).
+"""AOI y config multi-sitio — mina open-pit. Volumen por DEM-differencing (NO InSAR).
 
-A diferencia de litio-insar (subsidencia mm/año con Sentinel-1), acá medimos el
-MATERIAL EXCAVADO: decenas de metros de cambio de elevación entre dos fechas. Eso
-NO es un problema InSAR (la mina activa decorrelaciona la fase y el rango supera
-al interferométrico); se resuelve restando dos Modelos de Elevación (DEM).
+Medimos el MATERIAL EXCAVADO (decenas de metros de cambio de elevación entre dos
+fechas) restando dos DEM. NO es un problema InSAR (la mina activa decorrelaciona
+la fase y el rango supera al interferométrico).
 
-Caso público inicial: VELADERO (Barrick / Shandong, San Juan, Argentina), oro a
-cielo abierto a ~4.000–4.850 m. La producción arrancó en 2005, así que el SRTM de
-feb-2000 capta la montaña PRÍSTINA y el Copernicus GLO-30 (~2012) capta el pit ya
-excavado → señal de excavación grande y limpia, con DOS DEM GRATUITOS.
-
-Estrategia free: BASE = SRTM/NASADEM (2000), RECIENTE = Copernicus GLO-30 (~2012).
+Estrategia free: si la mina arrancó DESPUÉS de 2000, comparamos SRTM (feb 2000,
+terreno prístino) vs Copernicus GLO-30 (~2012, pit desarrollado). Ambos gratuitos.
 Extender a "hoy" requiere un DEM reciente (estéreo óptico/lidar, normalmente de pago).
-Bounding box a refinar contra imagen satelital.
+
+Sitio activo por variable de entorno SITE (default 'veladero'):
+    python fetch_dems.py                 # Veladero
+    SITE=china python fetch_dems.py      # Haerwusu (Mongolia Interior)
 """
 
 from __future__ import annotations
 
-# --- Bounding box (lon/lat) cubriendo los pits (Filón Federico, Amable) y escombreras ---
-WEST = -69.97
-SOUTH = -29.45
-EAST = -69.83
-NORTH = -29.31
+import os
 
-# --- Referencia (lat, lon): mina Veladero ---
-PIT = (-29.3723, -69.8995)
+SITES = {
+    # Veladero (Barrick/Shandong, San Juan, AR) — oro, producción desde 2005.
+    "veladero": dict(
+        NAME="Veladero (San Juan, Argentina)",
+        WEST=-69.97, SOUTH=-29.45, EAST=-69.83, NORTH=-29.31,
+        PIT=(-29.3723, -69.8995),
+        EPOCH_BASE="2000", EPOCH_NEW="2012",
+    ),
+    # Haerwusu (Jungar/Ordos, Mongolia Interior, China) — carbón, producción desde oct-2008.
+    # La mayor unidad de producción de carbón de China; opacidad operativa total.
+    "china": dict(
+        NAME="Haerwusu (Mongolia Interior, China)",
+        WEST=111.18, SOUTH=39.64, EAST=111.40, NORTH=39.76,
+        PIT=(39.70, 111.27),
+        EPOCH_BASE="2000", EPOCH_NEW="2012",
+    ),
+}
 
-# --- Épocas a comparar (DEM base = más antiguo; reciente = más nuevo) ---
-EPOCH_BASE = "2000"   # SRTM / NASADEM (feb 2000) — terreno prístino (pre-mina)
-EPOCH_NEW = "2012"    # Copernicus GLO-30 (TanDEM-X ~2011–2015) — pit desarrollado
+SITE = os.environ.get("SITE", "veladero").lower()
+if SITE not in SITES:
+    raise SystemExit(f"SITE='{SITE}' desconocido. Opciones: {', '.join(SITES)}")
+
+_s = SITES[SITE]
+NAME = _s["NAME"]
+WEST, SOUTH, EAST, NORTH = _s["WEST"], _s["SOUTH"], _s["EAST"], _s["NORTH"]
+PIT = _s["PIT"]
+EPOCH_BASE, EPOCH_NEW = _s["EPOCH_BASE"], _s["EPOCH_NEW"]
 
 
 def polygon_wkt() -> str:
