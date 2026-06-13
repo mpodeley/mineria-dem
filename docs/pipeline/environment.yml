@@ -1,0 +1,17 @@
+# Entorno conda/mamba para DEM-differencing (volumen removido en open-pit).
+#
+#   mamba env create -f pipeline/environment.yml
+#   mamba activate demdiff
+#
+# Sin InSAR: no hace falta mintpy/hyp3/asf_search. Solo manejo de rasters.
+name: demdiff
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - gdal            # reproyección / resampleo de DEMs
+  - rasterio        # leer/escribir GeoTIFF, alinear grillas
+  - numpy           # resta de elevaciones + integración de volumen
+  - shapely         # máscara por polígono del pit (overlay.geojson)
+  - matplotlib      # mapa de cambio de elevación (PNG)
+  - folium          # mapa HTML autocontenido sobre satélite

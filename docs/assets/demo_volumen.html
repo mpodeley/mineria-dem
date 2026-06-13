@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<title>Mapa de Δh — pendiente</title>
+<style>
+  html,body{height:100%;margin:0;font:14px/1.5 sans-serif;color:#333;background:#f4f6f7}
+  .box{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+  .card{max-width:540px;background:#fff;border:1px solid #ddd;border-radius:10px;padding:22px 26px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+  h2{margin:0 0 8px;font-size:17px;color:#b2182b}
+  code{background:#eee;padding:1px 5px;border-radius:4px}
+</style></head><body>
+<div class="box"><div class="card">
+  <h2>Mapa de cambio de elevación — pendiente</h2>
+  <p>Este visual se genera al restar dos DEM de la mina:</p>
+  <p><code>python pipeline/dem_diff.py --base dems/base.tif --new dems/reciente.tif</code></p>
+  <p style="color:#666;font-size:12.5px">Mostrará Δh (rojo = excavado, azul = depositado)
+  sobre la imagen satelital, con el volumen total en m³.</p>
+</div></div>
+</body></html>

@@ -1,0 +1,10 @@
+site/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# DEMs y rasters grandes (no versionar)
+dems/
+products/
+*.tif
+*.tiff
