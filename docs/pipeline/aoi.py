@@ -25,6 +25,14 @@ SITES = {
         PIT=(-29.3723, -69.8995),
         EPOCH_BASE="2000", EPOCH_NEW="2012",
     ),
+    # Veladero, pero comparando contra un DEM RECIENTE de ASTER 2024 (estéreo 3N/3B,
+    # vía Ames Stereo Pipeline) en vez del GLO-30 ~2012 → ventana 2000→2024.
+    "veladero2024": dict(
+        NAME="Veladero (San Juan, Argentina) — 2000→2024",
+        WEST=-69.97, SOUTH=-29.45, EAST=-69.83, NORTH=-29.31,
+        PIT=(-29.3723, -69.8995),
+        EPOCH_BASE="2000", EPOCH_NEW="2024",
+    ),
     # Haerwusu (Jungar/Ordos, Mongolia Interior, China) — carbón, producción desde oct-2008.
     # La mayor unidad de producción de carbón de China; opacidad operativa total.
     "china": dict(

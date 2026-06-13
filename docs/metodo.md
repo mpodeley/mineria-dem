@@ -39,11 +39,15 @@ La estrategia **gratuita** clave: si la mina arrancó **después de 2000**, comp
 
 - **Base (2000)**: **SRTM** 1 arcsec, vía el endpoint *skadi* de `elevation-tiles-prod` (AWS, **sin auth**).
 - **Reciente (~2012)**: **Copernicus GLO-30**, vía el bucket público `copernicus-dem-30m` (AWS, **sin auth**).
-- **Para extender a hoy**: un DEM reciente de estéreo óptico ([Ames Stereo Pipeline](https://github.com/NeoGeographyToolkit/StereoPipeline)
-  sobre Maxar/Pléiades/PlanetScope) o lidar/dron — normalmente de pago.
+- **Para extender a hoy, también gratis**: DEM reciente desde el **par estéreo de ASTER** (bandas 3N/3B),
+  archivo libre 2000–~2024 vía NASA Earthdata, reconstruido con
+  [Ames Stereo Pipeline](https://github.com/NeoGeographyToolkit/StereoPipeline) → `pipeline/aster_dem.sh`.
+  Más ruidoso (~±10–25 m) pero sirve para orden de magnitud. (Estéreo Maxar/Pléiades o lidar/dron, de pago,
+  quedan para precisión fina.)
 
 ```bash
-python pipeline/fetch_dems.py    # baja y recorta al AOI → dems/base_2000.tif, dems/new_2012.tif
+python pipeline/fetch_dems.py        # SRTM 2000 + GLO-30 ~2012 → dems/<sitio>_base.tif, <sitio>_new.tif
+ASP_BIN=/ruta/asp/bin pipeline/aster_dem.sh <granule_id>   # DEM reciente de ASTER (~2024)
 ```
 
 ## 3. Footprint del pit (opcional pero recomendado)

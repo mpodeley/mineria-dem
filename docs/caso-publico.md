@@ -21,6 +21,32 @@ movido estimado por DEM-diff contra el **material declarado**.
 El [mapa de Δh](resultados.md) muestra los dos pits (−200 a −320 m) y las escombreras adyacentes (hasta
 +150 m). Ver [Resultados](resultados.md) para el detalle y los *caveats*.
 
+## Extender a 2024 con ASTER (estéreo óptico, también gratis)
+
+El GLO-30 frena la ventana en ~2012. Para llegar a **hoy** sin DEM comercial, reconstruimos un DEM **de 2024**
+desde el **par estéreo óptico de ASTER** (bandas 3N nadir + 3B backward), gratis vía NASA Earthdata, con
+**Ames Stereo Pipeline** (`aster_dem.sh`). Escena del **2024-03-19, 0% de nube**.
+
+![Δh Veladero 2000→2024 (SRTM vs ASTER)](assets/dem_diff_veladero2024.png){ loading=lazy }
+
+<iframe src="../assets/demo_volumen_veladero2024.html" width="100%" height="540" style="border:1px solid #ccc;border-radius:6px"></iframe>
+
+| Ventana | Excavado | Depositado | Fuente del DEM reciente |
+|---|---|---|---|
+| 2000 → **2012** | ≈ 285 Mm³ | ≈ 267 Mm³ | Copernicus GLO-30 |
+| 2000 → **2024** | **≈ 424 Mm³** | ≈ 497 Mm³ | **ASTER 3N/3B → ASP** |
+
+El pit es **mucho más profundo** en 2024 (mínimo Δh ≈ **−580 m** vs −320 m en 2012) y las escombreras + pila de
+lixiviación crecieron mucho (por eso el depositado supera al excavado: Veladero es **heap-leach**, acumula
+mineral chancado en superficie). El co-registro absorbió un sesgo de **+29 m** (offset geoide EGM96 del SRTM
+vs elipsoide WGS84 del ASTER).
+
+!!! note "Qué demuestra esto"
+    Que se puede tener un DEM **reciente y gratuito** a partir de **imágenes 2D** (estéreo óptico satelital) y
+    cerrar la ventana hasta el presente. ASTER es más **ruidoso** (~±10–25 m vertical) que el GLO-30, así que
+    sirve para **orden de magnitud y tendencia**, no para cambios de pocos metros. La alternativa "fancy"
+    (Sat-NeRF / Gaussian splatting satelital) no le gana con las pocas vistas gratis disponibles.
+
 ## Candidatos alternativos (otros casos públicos)
 
 | Mina | Operador | País | Notas |
