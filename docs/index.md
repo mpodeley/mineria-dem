@@ -31,7 +31,9 @@ excavados** (y los depositados en escombreras). → `pipeline/dem_diff.py`.
 - **[Caso opaco (China)](caso-opaco.md)** — replicar donde no hay datos operativos públicos (p. ej. carbón
   a cielo abierto en Mongolia Interior, o Bayan Obo).
 
-!!! warning "Estado: esqueleto (fase 2)"
-    El pipeline DEM-diff y la estructura del sitio están listos; falta **conseguir los DEM** de dos épocas
-    y correr el cálculo (ver [Método](metodo.md)). El cuello de botella es la **base temporal** de los DEM
-    gratuitos.
+!!! success "Estado: pipeline funcionando con datos 100% gratuitos"
+    Ya hay un **resultado real** sobre [Veladero](caso-publico.md): restando **SRTM (2000)** vs
+    **Copernicus GLO-30 (~2012)** —ambos gratuitos— se estiman **≈285 Mm³ excavados** en los dos pits, con
+    los dos huecos y las escombreras nítidamente resueltos. Para una mina que arrancó después de 2000, no
+    hace falta DEM comercial. Extender a **hoy** sí requiere un DEM reciente (estéreo/lidar). Ver
+    [Resultados](resultados.md).

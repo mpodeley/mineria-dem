@@ -66,8 +66,11 @@ def _reproject_to(src_path: Path, dst_crs: str, ref=None):
 
 def _pit_mask(geojson: Path, grid) -> np.ndarray:
     from rasterio.features import geometry_mask
+    from rasterio.warp import transform_geom
     import json
-    geoms = [f["geometry"] for f in json.load(open(geojson))["features"]]
+    # El overlay viene en EPSG:4326; reproyectar a la grilla (UTM) antes de rasterizar.
+    geoms = [transform_geom("EPSG:4326", grid["crs"], f["geometry"])
+             for f in json.load(open(geojson))["features"]]
     # geometry_mask: True = fuera de los polígonos → invertimos para quedarnos dentro
     return ~geometry_mask(geoms, out_shape=(grid["height"], grid["width"]),
                           transform=grid["transform"], invert=False)
@@ -78,6 +81,8 @@ def main() -> None:
     ap.add_argument("--base", required=True, type=Path, help="DEM base (más antiguo)")
     ap.add_argument("--new", required=True, type=Path, help="DEM reciente")
     ap.add_argument("--pit", type=Path, help="GeoJSON del pit para acotar (opcional)")
+    ap.add_argument("--no-coreg", action="store_true",
+                    help="no restar el sesgo de co-registro vertical")
     args = ap.parse_args()
 
     import rasterio
@@ -95,18 +100,38 @@ def main() -> None:
     cell_area = px * py
     print(f"    resolución {px:.0f}×{py:.0f} m  ·  celda {cell_area:.0f} m²")
 
+    valid = np.isfinite(dh)
+
+    # Co-registro vertical: los DEM tienen un sesgo de altura (geoide/banda/penetración).
+    # Lo estimamos como la mediana de Δh en TERRENO ESTABLE (fuera del pit) y lo restamos.
+    inside = None
     if args.pit and args.pit.exists():
         inside = _pit_mask(args.pit, grid)
-        dh = np.where(inside, dh, np.nan)
-        print(f"    acotado al pit ({int(np.isfinite(dh).sum())} celdas)")
+        stable = valid & ~inside
+        bias = float(np.median(dh[stable])) if stable.any() else 0.0
+        print(f"    co-registro: sesgo {bias:+.2f} m (mediana en {int(stable.sum())} "
+              f"celdas estables fuera del pit) → restado")
+        region_label = "pit"
+    else:
+        bias = float(np.median(dh[valid]))
+        print(f"    co-registro: sesgo {bias:+.2f} m (mediana de TODO el AOI) → restado")
+        print("    AVISO: sin --pit, el volumen es de TODO el AOI (incluye ruido del terreno).")
+        region_label = "AOI"
 
-    valid = np.isfinite(dh)
-    exc = float(-np.nansum(dh[valid & (dh < 0)]) * cell_area)   # excavado (m³, +)
-    dep = float(np.nansum(dh[valid & (dh > 0)]) * cell_area)    # depositado (m³)
-    print(f"\n  Épocas: {aoi.EPOCH_BASE} → {aoi.EPOCH_NEW}")
+    if not args.no_coreg:
+        dh = dh - bias
+    region = (inside if inside is not None else valid) & np.isfinite(dh)
+
+    exc = float(-np.nansum(dh[region & (dh < 0)]) * cell_area)   # excavado (m³, +)
+    dep = float(np.nansum(dh[region & (dh > 0)]) * cell_area)    # depositado (m³)
+    print(f"\n  Épocas: {aoi.EPOCH_BASE} → {aoi.EPOCH_NEW}  ·  región: {region_label} "
+          f"({int(region.sum())} celdas)")
     print(f"  Excavado : {exc/1e6:8.2f} Mm³  ({exc:,.0f} m³)")
     print(f"  Depositado: {dep/1e6:8.2f} Mm³  ({dep:,.0f} m³)")
     print(f"  Neto      : {(dep-exc)/1e6:8.2f} Mm³  (depositado − excavado)")
+
+    # Mostrar Δh solo en la región de interés en el raster/mapa de salida.
+    dh = np.where(region, dh, np.nan)
 
     prof = {"driver": "GTiff", "dtype": "float32", "count": 1,
             "width": grid["width"], "height": grid["height"],

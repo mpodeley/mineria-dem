@@ -29,29 +29,45 @@ Integrando Δh por el área de cada celda → **volumen en m³**.
 
 ## 1. Área y época
 
-`aoi.py` define el bounding box de la mina, el punto del pit y las dos épocas a comparar. El caso público
-inicial es **Chuquicamata** (Codelco, Chile) como placeholder; refinar el bbox contra la imagen satelital.
+`aoi.py` define el bounding box de la mina, el punto del pit y las dos épocas a comparar. El caso público es
+**Veladero** (Barrick/Shandong, San Juan); refinar el bbox contra la imagen satelital.
 
 ## 2. Conseguir los DEM
 
-- **Base (gratis)**: Copernicus GLO-30 vía [OpenTopography](https://opentopography.org) o el dataset de AWS.
-- **Reciente**: estéreo óptico procesado con [Ames Stereo Pipeline](https://github.com/NeoGeographyToolkit/StereoPipeline)
-  a partir de imágenes Maxar/Pléiades/PlanetScope; o lidar/dron si el operador lo publica.
-- Guardar ambos como GeoTIFF en `dems/` (git-ignorado).
+La estrategia **gratuita** clave: si la mina arrancó **después de 2000**, comparamos dos DEM públicos de
+épocas distintas — el SRTM capta el terreno prístino y el GLO-30 el pit ya excavado.
 
-## 3. Resta y volumen
+- **Base (2000)**: **SRTM** 1 arcsec, vía el endpoint *skadi* de `elevation-tiles-prod` (AWS, **sin auth**).
+- **Reciente (~2012)**: **Copernicus GLO-30**, vía el bucket público `copernicus-dem-30m` (AWS, **sin auth**).
+- **Para extender a hoy**: un DEM reciente de estéreo óptico ([Ames Stereo Pipeline](https://github.com/NeoGeographyToolkit/StereoPipeline)
+  sobre Maxar/Pléiades/PlanetScope) o lidar/dron — normalmente de pago.
+
+```bash
+python pipeline/fetch_dems.py    # baja y recorta al AOI → dems/base_2000.tif, dems/new_2012.tif
+```
+
+## 3. Footprint del pit (opcional pero recomendado)
+
+```bash
+python pipeline/overlay_osm.py   # trae el footprint minero de OpenStreetMap → overlay.geojson
+```
+
+Sin acotar, el volumen integra el ruido de todo el AOI. Con el footprint, el cálculo se limita a la mina y el
+**terreno de afuera** sirve para estimar el sesgo de co-registro.
+
+## 4. Resta y volumen
 
 ```bash
 mamba env create -f pipeline/environment.yml && mamba activate demdiff
-python pipeline/dem_diff.py --base dems/glo30_2011.tif --new dems/reciente_2024.tif \
-       --pit pipeline/overlay.geojson      # --pit es opcional
+python pipeline/dem_diff.py --base dems/base_2000.tif --new dems/new_2012.tif \
+       --pit pipeline/overlay.geojson
 ```
 
-`dem_diff.py` reproyecta ambos DEM a una **grilla UTM común** (área de celda en m²), resta, opcionalmente
-acota al polígono del pit, e imprime **volumen excavado / depositado / neto**. Salidas: `dem_diff.tif` (Δh) y
-`demo_volumen.html` (mapa interactivo, rojo = excavado).
+`dem_diff.py` reproyecta ambos DEM a una **grilla UTM común** (área de celda en m²), resta, **co-registra en
+vertical** (resta la mediana de Δh del terreno estable fuera del pit), acota al footprint, e imprime
+**volumen excavado / depositado / neto**. Salidas: `dem_diff.tif` (Δh) y `demo_volumen.html` (mapa interactivo).
 
-## 4. Cruce con producción
+## 5. Cruce con producción
 
 El volumen excavado se compara contra el **material movido declarado** (toneladas de mineral + estéril,
 *strip ratio*) de los reportes de la empresa, para ver si el orden de magnitud cierra. → ver

@@ -5,25 +5,30 @@ MATERIAL EXCAVADO: decenas de metros de cambio de elevación entre dos fechas. E
 NO es un problema InSAR (la mina activa decorrelaciona la fase y el rango supera
 al interferométrico); se resuelve restando dos Modelos de Elevación (DEM).
 
-Caso público inicial (placeholder): Chuquicamata (Codelco, Chile), el open-pit
-icónico. Bounding box APROXIMADO al pit, a refinar contra imagen satelital. El
-caso opaco posterior: una open-pit en China (p. ej. carbón en Mongolia Interior).
+Caso público inicial: VELADERO (Barrick / Shandong, San Juan, Argentina), oro a
+cielo abierto a ~4.000–4.850 m. La producción arrancó en 2005, así que el SRTM de
+feb-2000 capta la montaña PRÍSTINA y el Copernicus GLO-30 (~2012) capta el pit ya
+excavado → señal de excavación grande y limpia, con DOS DEM GRATUITOS.
+
+Estrategia free: BASE = SRTM/NASADEM (2000), RECIENTE = Copernicus GLO-30 (~2012).
+Extender a "hoy" requiere un DEM reciente (estéreo óptico/lidar, normalmente de pago).
+Bounding box a refinar contra imagen satelital.
 """
 
 from __future__ import annotations
 
-# --- Bounding box (lon/lat) cubriendo el pit y las escombreras ---
-WEST = -68.95
-SOUTH = -22.36
-EAST = -68.85
-NORTH = -22.26
+# --- Bounding box (lon/lat) cubriendo los pits (Filón Federico, Amable) y escombreras ---
+WEST = -69.97
+SOUTH = -29.45
+EAST = -69.83
+NORTH = -29.31
 
-# --- Referencia (lat, lon): centro del pit (aprox.) ---
-PIT = (-22.31, -68.90)
+# --- Referencia (lat, lon): mina Veladero ---
+PIT = (-29.3723, -69.8995)
 
-# --- Épocas a comparar (DEM base vs DEM reciente). Solo informativo/etiquetas. ---
-EPOCH_BASE = "2011"   # p. ej. Copernicus GLO-30 (adquisición ~2011–2015)
-EPOCH_NEW = "2024"    # DEM reciente (estéreo óptico / lidar / proveedor)
+# --- Épocas a comparar (DEM base = más antiguo; reciente = más nuevo) ---
+EPOCH_BASE = "2000"   # SRTM / NASADEM (feb 2000) — terreno prístino (pre-mina)
+EPOCH_NEW = "2012"    # Copernicus GLO-30 (TanDEM-X ~2011–2015) — pit desarrollado
 
 
 def polygon_wkt() -> str:
