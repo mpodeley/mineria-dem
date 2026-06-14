@@ -51,6 +51,21 @@ un foco al NO a cubrir casi todo el norte del footprint. Es la firma de uno de l
 **crecimiento más rápido del mundo** — visible solo por satélite, porque el dato operativo fino no es público.
 El co-registro absorbió un sesgo de −30,5 m (offset geoide/elipsoide SRTM vs ASTER).
 
+## Evolución del pit en el tiempo
+
+Las tres épocas (SRTM 2000, GLO-30 ~2012, ASTER 2024), co-registradas. La **sección transversal** por el
+punto más profundo:
+
+![Sección transversal de Haerwusu 2000/2012/2024](assets/seccion_china.png){ loading=lazy }
+
+*Entre 2012 (naranja) y 2024 (rojo) el frente de excavación baja fuerte (hasta ~−270 m). El perfil es más
+irregular que en Veladero: ASTER es más ruidoso y el paisaje de carbón tiene pits y escombreras que se
+mueven. En el terreno estable las curvas vuelven a coincidir.*
+
+**Slider** del Δh acumulado vs 2000 (2000 → 2012 → 2024):
+
+<iframe src="../assets/demo_timeline_china.html" width="100%" height="520" style="border:1px solid #ccc;border-radius:6px"></iframe>
+
 ## Cruce con lo poco que se reporta
 
 Convirtiendo el volumen a masa (carbón+roca, ρ ~1,8–2,2 t/m³): **≈ 480 Mm³ → ~860–1.060 Mt** de material

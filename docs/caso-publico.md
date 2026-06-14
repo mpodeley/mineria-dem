@@ -47,6 +47,20 @@ vs elipsoide WGS84 del ASTER).
     sirve para **orden de magnitud y tendencia**, no para cambios de pocos metros. La alternativa "fancy"
     (Sat-NeRF / Gaussian splatting satelital) no le gana con las pocas vistas gratis disponibles.
 
+## Evolución del pit en el tiempo
+
+Juntando las tres épocas (SRTM 2000, GLO-30 ~2012, ASTER 2024), co-registradas al mismo datum, se ve el
+hueco crecer. La **sección transversal** corta el pit por su punto más profundo:
+
+![Sección transversal de Veladero 2000/2012/2024](assets/seccion_veladero.png){ loading=lazy }
+
+*El pico de 2000 (azul, ~4.600 m) se corta en 2012 (naranja) y queda excavado en 2024 (rojo, ~4.030 m). En el
+terreno natural (km 3–13) las tres curvas se superponen — eso valida el co-registro.*
+
+Y el **slider** muestra el Δh acumulado vs 2000 en los tres pasos (arrastrá el control):
+
+<iframe src="../assets/demo_timeline_veladero.html" width="100%" height="520" style="border:1px solid #ccc;border-radius:6px"></iframe>
+
 ## Candidatos alternativos (otros casos públicos)
 
 | Mina | Operador | País | Notas |
